@@ -14,13 +14,13 @@ app.listen(PORT)
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "app/public")));
+app.use(express.static(path.join(__dirname, "app")));
 
 
 app.get("/api/notes", function (err, res) {
   try {
 
-    notesData = fs.readFileSync("app/public/db/db.json", "utf8");
+    notesData = fs.readFileSync("app/db/db.json", "utf8");
     console.log("hello!");
 
     notesData = JSON.parse(notesData);
@@ -38,7 +38,7 @@ app.get("/api/notes", function (err, res) {
 app.post("/api/notes", function (req, res) {
   try {
 
-    notesData = fs.readFileSync("./app/public/db/db.json", "utf8");
+    notesData = fs.readFileSync("./app/db/db.json", "utf8");
     console.log(notesData);
 
 
@@ -49,7 +49,7 @@ app.post("/api/notes", function (req, res) {
     notesData.push(req.body);
     notesData = JSON.stringify(notesData);
 
-    fs.writeFile("./app/public/db/db.json", notesData, "utf8", function (err) {
+    fs.writeFile("./app/db/db.json", notesData, "utf8", function (err) {
 
       if (err) throw err;
     });
@@ -65,7 +65,7 @@ app.post("/api/notes", function (req, res) {
 app.delete("/api/notes/:id", function (req, res) {
   try {
 
-    notesData = fs.readFileSync("./app/public/db/db.json", "utf8");
+    notesData = fs.readFileSync("./app/db/db.json", "utf8");
 
     notesData = JSON.parse(notesData);
 
@@ -75,7 +75,7 @@ app.delete("/api/notes/:id", function (req, res) {
 
     notesData = JSON.stringify(notesData);
 
-    fs.writeFile("./app/public/db/db.json", notesData, "utf8", function (err) {
+    fs.writeFile("./app/db/db.json", notesData, "utf8", function (err) {
 
       if (err) throw err;
     });
@@ -89,16 +89,16 @@ app.delete("/api/notes/:id", function (req, res) {
 });
 
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "app/public/notes.html"));
+  res.sendFile(path.join(__dirname, "app/notes.html"));
 });
 
 
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "app/public/index.html"));
+  res.sendFile(path.join(__dirname, "app/index.html"));
 });
 
 app.get("/api/notes", function (req, res) {
-  return res.sendFile(path.json(__dirname, "app/public/db/db.json"));
+  return res.sendFile(path.json(__dirname, "app/db/db.json"));
 });
 
 app.listen(PORT, function () {
